@@ -5,7 +5,7 @@ metadata:
    service: udagram-backend-user
  name: udagram-backend-user
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -53,4 +53,19 @@ spec:
             secretKeyRef:
               name: env-secret
               key: POSTGRES_USERNAME
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_REGION
+        - name: AWS_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_PROFILE
+        - name: AWS_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_BUCKET
       restartPolicy: Always
