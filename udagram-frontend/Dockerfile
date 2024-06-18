@@ -8,6 +8,9 @@ WORKDIR /usr/src/app
 # package.json and package-lock.json
 COPY package*.json ./
 
+# Set environment variable to use legacy OpenSSL provider
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 # Install dependencies in Docker
 RUN npm install
 
@@ -19,5 +22,6 @@ RUN ionic build
 
 FROM nginx:alpine
 
-#COPY www /usr/share/nginx/html
-COPY --from=ionic  /usr/src/app/www /usr/share/nginx/html
+# Copy built app to nginx directory
+COPY --from=ionic /usr/src/app/www /usr/share/nginx/html
+
