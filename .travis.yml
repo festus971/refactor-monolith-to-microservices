@@ -32,4 +32,7 @@ after_success:
   - docker push festus971/udagram-frontend:latest
   - docker push festus971/reverse-proxy:latest
 
-
+env:
+  global:
+    - secure: <encrypted-docker-username>
+    - secure: <encrypted-docker-password>
