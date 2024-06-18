@@ -1,18 +1,23 @@
 language: minimal
 services: docker
 env:
+  matrix:
   - DOCKER_COMPOSE_VERSION=1.23.2
+  global:
+  - secure: XsfM74Fx20E856NjKY/Qc78bnD4/n5tP6SME27dOwutRltA21dvq3APzvw4nzLHir/2GQx45vNrRwEyE5RCkWEnw3bRsWswUmxpOMADbHNstRkLUZR+vi6YiRKa0XqF2KiTVXRTVR4EeefI43rGLE4LrW0VWOiZ4m6KpE13VF4ZzcK7Us5Uwhf+jwYWWz7ooGE+QqB75maykAIZKi+h/5kYU0YXb16mdyJ+pzhxHqkDJrkIL2vEboBXpSvY3SLCv6mFv6JWPwLf312YBdWNkWg/kSz6CUDGR2QeAwgOtPBAndhbxwpR2qPuwxz7QZzEzwe4b2WYPCiB5At0BOJQgPEQdQDuYCkzSOoyMMlvxmYBOnVscG+Jz8Z6oU5OpNownai0IiazN1WiLYeGkdAn65zc/oKLwDSUqszrrRKjv16YuE4QJF5Sjyws+Hh/2x8d3a2gpTTIF9JTzT33TASAv+d2aYX4WFjTx1h7IR4G22mKYod582Oe62Zai38AQ3ni0gVTGKls+3u1lX67CsqkipzjUf5oBkcJtGqs1+epUTtgcjNyCE+JxFYyuP/EAtsQGt1n67dsZau05EhD8SCq9lAnT386KVhkZp62q/BNUN0q6Y+WYm08MBjRB22Al64qGBeLP92HMjjwGD6Sq1Ps4dtoUgjyHTs+Gi8RjJK6EMzw=
+  - secure: ODVhgyn/mUCtpl8h/LvbsyPBjIFKuxKoP8wbIxv1l4StIPr4pPVI7EZg7O68TGOowp+tmF3Cb/Ea8uM3gf1rg27VpzaqOqfd1UH29cataUzT5emUrJSm7av8fkDA9nl4wppmmz0O8q2mgifD40MOtAj3kJu7Kxznon1o8RlCnNFsiVM+V71l05KZTlX4EZYs1q+jh7rTP4DP7DpjrGg20MgNMM0g2CkUywkkouFL9Bjc4arhnR3Q4DOvLeuMHzalGGG1aoWRJ1xXvK+2WnPuRPJLyJ8SAbrlKzqfLhl2JveoBKuHPEgYZFoqjKQPFhTiEMijCm0S/gA3LyUjGhL00tTaT9slzMRhwl42six5GtnOxBY27OlqyJK/vQtqQ7J/ody6K4FpXxrgISKdSl29izVVz0dUHWo2M6ls8hnblvsK+pF3/lsZtdj4QHy7dCDGWo2MmqIOug0UDWBOTSg98o69PPQEmquNvcl99Ky3ruN5bM4iYA2iVlQsHRM756uQY3XS8YLY5zMYhZ9QzXvgx2vSLEHReW1mMClyppmXqTpTh4Arnv2ssZv/SOfRci2mMyBSpfh5IlYaurCjIHktdDhn6Z5Ow0O4h53lDtgMym7J3dk5575HSAINPTXwZjNclc8OImM+WzFyiN5ACqJOw9L527PkVbi/5E1944svg+o=
+  - secure: Qla1U4dXIWqhCp+ou7hEOSZa2vET+hlGRbaVxNggmZ4knKOes8dWJSQvMSzcDhEIg2uAzbqSyDWRd6I2BixMvWmXZYi2DA6vlYdmUD1nQX99X8YiEyg6oXViep0RrFflMnwFt8Js6PpzjCVt8OER5xiN7JIzJ79oLEE6z3FfOo0ufMGBLoVbq8Qc7drYQ6GQfcqOCBxExlr8ek0BpphmRnU36jx06jwfFTVkPt2pVzLFEF1+ycu+fPa+g77BblPaHPHO6KxzVJtcuCH5QOIUe18FsECMAuwlKO/Sgys76BJ0I2Agq1PIq9TZMeCTSxEiSOdKBuVIuXRIRr35DMZxqJy5PXTc9TS3zMWVCEOSjq7Ytq2M4vZ2QrjycRjQmu0lktt3FMJ4zfResDwUwOWpozF9xpA4Hb35Xq6TjX6WIN4QIcwZcz2su0DpRMoqaNLW0K7a8rXitKXvY8jNXnuPRTGwtSWteYStHRpCTolCFOxboFIlex3fBMDGzBUw5nROCFR8SL+4qSZtnIPhhhqxcT02ORzk/9BYMd9W9+6vCebD8u+UHhiVd6QIPFTcuFwIfyF36FpNIaDurQ9j3USx6fhXo87R5PpbMBrpGb9oizXnw2pqECSFPUnGx51+g42iE7cIMHglBRMF/usZKpcTsd/07qRz/kSu6mTQKvHdD4g=
 before_install:
-  - docker -v && docker-compose -v
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-
+- docker -v && docker-compose -v
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+  -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+- curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+- chmod +x ./kubectl
+- sudo mv ./kubectl /usr/local/bin/kubectl
 install:
-  - docker-compose -f udagram-deployment/docker-compose-build.yaml build --parallel
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker-compose -f udagram-deployment/docker-compose-build.yaml push
+- docker-compose -f udagram-deployment/docker-compose-build.yaml build --parallel
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker-compose -f udagram-deployment/docker-compose-build.yaml push
