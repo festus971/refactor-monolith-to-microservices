@@ -1,38 +1,31 @@
 language: node_js
 node_js:
-  - 13
-
+- 13
 services:
-  - docker
-
-# Pre-testing installs
+- docker
 install:
-  - echo "nothing needs to be installed"
-
-# Scripts to be run such as tests
+- echo "nothing needs to be installed"
 before_script:
-  - echo "no tests"
-
+- echo "no tests"
 script:
-  - docker --version # print the version for logging
-  - docker build -t udagram-api-user .
-  - docker tag udagram-api-user festus971/udagram-api-user:latest
-  - docker build -t udagram-api-feed .
-  - docker tag udagram-api-feed festus971/udagram-api-feed:latest
-  - docker build -t udagram-frontend .
-  - docker tag udagram-frontend festus971/udagram-frontend:latest
-  - docker build -t reverse-proxy .
-  - docker tag reverse-proxy festus971/reverse-proxy:latest
-
-# Tasks to perform after the process is successful. Formatting the Docker username and password as below enables you to programmatically log in without having the password exposed in logs.
+- docker --version
+- docker build -t udagram-api-user .
+- docker tag udagram-api-user festus971/udagram-api-user:latest
+- docker build -t udagram-api-feed .
+- docker tag udagram-api-feed festus971/udagram-api-feed:latest
+- docker build -t udagram-frontend .
+- docker tag udagram-frontend festus971/udagram-frontend:latest
+- docker build -t reverse-proxy .
+- docker tag reverse-proxy festus971/reverse-proxy:latest
 after_success:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push festus971/udagram-api-user:latest
-  - docker push festus971/udagram-api-feed:latest
-  - docker push festus971/udagram-frontend:latest
-  - docker push festus971/reverse-proxy:latest
-
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push festus971/udagram-api-user:latest
+- docker push festus971/udagram-api-feed:latest
+- docker push festus971/udagram-frontend:latest
+- docker push festus971/reverse-proxy:latest
 env:
   global:
-    - secure: <encrypted-docker-username>
-    - secure: <encrypted-docker-password>
+  - secure: "<encrypted-docker-username>"
+  - secure: "<encrypted-docker-password>"
+  - secure: fdqToKvVbc9m73Apu5dnHQejvkuH4nVyTB160Naj2CnYgdeW39HdxESM1PEcMm3o54bOdKaQv3Z4sjjHpB1i2ncKd5iO8tBi+cF3hdCP2sdwNOQiomEfzuUhgPGClp+H2fRKzbysym48jIUbKAIFYH5QPPAnK0tM0iMEGlRG9NWlQkqZ/PuYyUmUU3qDsSjdhxSKBM2oxJ9rW3uon6c90Jd1XTmDpZ4Cu5VMpn7hYdCpzmM9AcAdPfcGIrlNxP4kE0q26wNPfPKkrXcZby3HRC/zlnsppdBf3+ne2TYZT7pll9J24fq2MQML5V6X9DRc5X272y55dXCoFnzl8nUf21NE55rAcYmrwszLGlxasv3y5ikIo1U6XuBIzoSEVLH/qlpixIN/DU1gsXtuhbWb1UiG92bem8O5zKcRaVCLKdSS19aNbdtQ2W1t7jSV9f4G7OpDji6+V0U6jnFI1JaujJsZ9E5ib0ukTi2ygTGv6YUp4Miv6yGTEla1aNUIJ8pNGBXp61GYh7QdzbRl+T2KN76+00a61RPfKnvx1I9eK9Mo3c7uQmRGwmQuDm90i6k8tSEmuogWgzVvInXMH0PP+YsyuCRFQfyupSW4L2m8KBxRZAjDwLIoOdBKlSHzM14MsBjSrXfGhq3rh5UPWD10sLGn25m7qwnxkfSe2KgdQig=
+  - secure: JAtGj9DAV9WmJ6r1d1du2xmEJqcxHuuy2ichQAobqOGrkYNxnDqPCt7ni7rMx9CLxFqnsQcvol5V45A2dYCnkOt0qiYroDKhLPl5p2ZQNP9mTwGbeFEifb7kR68d5WTUGDR+0Hdk0umzIUNOAnvs2MgsBnSGy6sP2S/2lZ1VL4R2BWgbl5kbhqZbE11VT04MdAklhmZBLpjoManpJsJYpRiwTDP1ebO34R7MzWBjAWKQYlXtOtggwe0jHHz9jFSRvjUamWbylf6e/zhsnA8MJsParbjcowJ+CbNW2GrYSeK3c4ogHa2+OssApFE1IeYa2uddJyK5y2LX9oOCCtADWScYQ9gg5poRxhFDSSqnNtcamgvx2wApGLTJcwYMPlqrSXKXiuC/SuQHdweC2X3NMXkvwEwTDF93/CjjAp+GTfagFjfkw+YFG0lvf45rqNKHzUvP8zBIEKra5dPAYzMP1Uynd1gPjhb0rjoA1IaJOOC9Cq/j6MpC6CU7tm2XWbBarwbyiikwcl4dMrx4yRCkHuMpCg9DELtCTB8fkyTQ7BcSX46YPR20XOiqOorr2HjHMIdF34bFBA6rVyG311jU0RRgUk0tZicJcT9mSYuRSRXDunv5hud1ysbydf2X4ys8rMS8e37sgNjduaQKmWKTWPxsa0hOygCA/uLtFyl1ztg=
