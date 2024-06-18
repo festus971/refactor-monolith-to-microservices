@@ -1,27 +1,35 @@
-language: minimal
+language: node_js
+node_js:
+  - 13
 
 services:
   - docker
 
-env:
-  matrix:
-    - DOCKER_COMPOSE_VERSION=1.23.2
-  global:
-    - secure: I/+4XKA2Kq4fDAUYrwvs2BymypZmGK4WsVttIy+mmPC5CbrB9IYy2h5dYp1vDv5NbI6NiJdJidyATz3rZSIsGENVneE0tr4OzHLNPcKdDIL4SyTMIOPPeqSfpViCsAAcg818PBJ0WwnIhxVQj56AJQR+t+ASMyakR/+H/eUuXNfNz0c6JvHX9rc9Zme5knlI6nEKM6wmbTd4LP4sk6pmX/W93kzOI6qNKL3stuBrEkxPNu/UgvJPL/iGgUtI9qWYQR85UqgEuybsw2AgXJw2LICgvTgHK+CnP72/cXC9it1QW4Cpq7rA/R6nlMhczqZlifB5Jw2KcwTPLOopsBxHfel1K5wuAOolfmjeVta2fVVYm5vTp/rqO1Pu04ExdnSPbk/DQfZ6h7HKedxDup0ZsQrfGuSSgYM7yLBx72pQ4Qjnlgridajp81DrUUf/XielLbkG7WfVGV0dcb/Owj5i2LrRAXpyaB17KPJFu10kgP2Rm8uKp6VicF8LO4j7BzIL2XwIwpYlpdCBSZe1uos5cwZJFgkDETjKtytyorWEd3ZdZ79PzTAZ4CIzgAmRc9IiTKKpBiO6S2awpYq9u97AFJtc+A1iy++3ZKo+wSuUXt19byl7zW9MR0HZTX1hGkNHPiIx5bLIiJ1vevBAKgWHBRPF5tEQTeiwnsqXT2W4lyw=
-    - secure: QYF6raTPI2CHk/H8YOjpRLfuq0FQJPnyG4m73agsG/9gFboRqYu91Uvl1N4B0ezWqRI3aW8js70FfRRO6Bm/2vY2IR1Qj3PqyFH/vVImw4GH83zl6j6izUVAk+vEJlF8sAIzDSIhqaP15OdEvfYfBglQilrvA9TvVMiZTT8b8rdYM0RJuHo/LtGt/bFdNg3+RkvhvU5zkHjSq65ORcAbAxvabPEXRGXmkL0oyfAEPPj2qSNhmJSWgkZu5DsjvWyawvtSvnansQHm3xRwFTd5aJj6nHUyxCImYEHTi5WTeJ965WEMFjwY8BFTgmVF9uVwNvCIEd01anGPcpixbvGH3j8klHhFdykW+KRANUczvMn4GAKOroeo3uCl6hYw4McZD8lLc63R4RKnV0rcjY8v7HsItrxlil9H2ustUpqQgoKbE3xg8QERuZUam+fuMq45cmAadwzBujmGCb75yaiIMZeozMhTsO56I4mVQdkH2fbhRMAH4XTfwZ4TcyIG7CDLsG5Gun/u/U6V6ECaEGCkeLg1CoI42GSaMYIBIQgnT6IpDas7tZrhUw6E19upZ88ywFZ5SYwtYC8twxi1r1dWseVj8gTBeI1qGePzDaTJ4THRjJJhPGFFvUwnv8EpBji6yAjoQXwoQAeMoG+MWmavnBE/TvtuUia7TpxJTZ3xUA4=
-
-before_install:
-  - docker -v && docker-compose -v
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-  - chmod +x ./kubectl
-  - sudo mv ./kubectl /usr/local/bin/kubectl
-
+# Pre-testing installs
 install:
-  - docker-compose -f udagram-deployment/docker-compose-build.yaml build --parallel
+  - echo "nothing needs to be installed"
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version # print the version for logging
+  - docker build -t udagram-api-user .
+  - docker tag udagram-api-user festus971/udagram-api-user:latest
+  - docker build -t udagram-api-feed .
+  - docker tag udagram-api-feed festus971/udagram-api-feed:latest
+  - docker build -t udagram-frontend .
+  - docker tag udagram-frontend festus971/udagram-frontend:latest
+  - docker build -t reverse-proxy .
+  - docker tag reverse-proxy festus971/reverse-proxy:latest
+
+# Tasks to perform after the process is successful. Formatting the Docker username and password as below enables you to programmatically log in without having the password exposed in logs.
+after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker-compose -f udagram-deployment/docker-compose-build.yaml push
+  - docker push festus971/udagram-api-user:latest
+  - docker push festus971/udagram-api-feed:latest
+  - docker push festus971/udagram-frontend:latest
+  - docker push festus971/reverse-proxy:latest
+
 
