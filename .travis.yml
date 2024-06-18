@@ -9,13 +9,13 @@ before_script:
 - echo "no tests"
 script:
 - docker --version
-- docker build -t udagram-api-user .
+- docker build -t udagram-api-user -f udagram-api-user/Dockerfile ./udagram-api-user
 - docker tag udagram-api-user festus971/udagram-api-user:latest
-- docker build -t udagram-api-feed .
+- docker build -t udagram-api-feed -f udagram-api-feed/Dockerfile ./udagram-api-feed
 - docker tag udagram-api-feed festus971/udagram-api-feed:latest
-- docker build -t udagram-frontend .
+- docker build -t udagram-frontend -f udagram-frontend/Dockerfile ./udagram-frontend
 - docker tag udagram-frontend festus971/udagram-frontend:latest
-- docker build -t reverse-proxy .
+- docker build -t reverse-proxy -f udagram-deployment/reverse-proxy/Dockerfile ./udagram-deployment/reverse-proxy
 - docker tag reverse-proxy festus971/reverse-proxy:latest
 after_success:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -27,5 +27,5 @@ env:
   global:
   - secure: "<encrypted-docker-username>"
   - secure: "<encrypted-docker-password>"
-  - secure: fdqToKvVbc9m73Apu5dnHQejvkuH4nVyTB160Naj2CnYgdeW39HdxESM1PEcMm3o54bOdKaQv3Z4sjjHpB1i2ncKd5iO8tBi+cF3hdCP2sdwNOQiomEfzuUhgPGClp+H2fRKzbysym48jIUbKAIFYH5QPPAnK0tM0iMEGlRG9NWlQkqZ/PuYyUmUU3qDsSjdhxSKBM2oxJ9rW3uon6c90Jd1XTmDpZ4Cu5VMpn7hYdCpzmM9AcAdPfcGIrlNxP4kE0q26wNPfPKkrXcZby3HRC/zlnsppdBf3+ne2TYZT7pll9J24fq2MQML5V6X9DRc5X272y55dXCoFnzl8nUf21NE55rAcYmrwszLGlxasv3y5ikIo1U6XuBIzoSEVLH/qlpixIN/DU1gsXtuhbWb1UiG92bem8O5zKcRaVCLKdSS19aNbdtQ2W1t7jSV9f4G7OpDji6+V0U6jnFI1JaujJsZ9E5ib0ukTi2ygTGv6YUp4Miv6yGTEla1aNUIJ8pNGBXp61GYh7QdzbRl+T2KN76+00a61RPfKnvx1I9eK9Mo3c7uQmRGwmQuDm90i6k8tSEmuogWgzVvInXMH0PP+YsyuCRFQfyupSW4L2m8KBxRZAjDwLIoOdBKlSHzM14MsBjSrXfGhq3rh5UPWD10sLGn25m7qwnxkfSe2KgdQig=
-  - secure: JAtGj9DAV9WmJ6r1d1du2xmEJqcxHuuy2ichQAobqOGrkYNxnDqPCt7ni7rMx9CLxFqnsQcvol5V45A2dYCnkOt0qiYroDKhLPl5p2ZQNP9mTwGbeFEifb7kR68d5WTUGDR+0Hdk0umzIUNOAnvs2MgsBnSGy6sP2S/2lZ1VL4R2BWgbl5kbhqZbE11VT04MdAklhmZBLpjoManpJsJYpRiwTDP1ebO34R7MzWBjAWKQYlXtOtggwe0jHHz9jFSRvjUamWbylf6e/zhsnA8MJsParbjcowJ+CbNW2GrYSeK3c4ogHa2+OssApFE1IeYa2uddJyK5y2LX9oOCCtADWScYQ9gg5poRxhFDSSqnNtcamgvx2wApGLTJcwYMPlqrSXKXiuC/SuQHdweC2X3NMXkvwEwTDF93/CjjAp+GTfagFjfkw+YFG0lvf45rqNKHzUvP8zBIEKra5dPAYzMP1Uynd1gPjhb0rjoA1IaJOOC9Cq/j6MpC6CU7tm2XWbBarwbyiikwcl4dMrx4yRCkHuMpCg9DELtCTB8fkyTQ7BcSX46YPR20XOiqOorr2HjHMIdF34bFBA6rVyG311jU0RRgUk0tZicJcT9mSYuRSRXDunv5hud1ysbydf2X4ys8rMS8e37sgNjduaQKmWKTWPxsa0hOygCA/uLtFyl1ztg=
+  - secure: ZS/h17Rb8ElVvDqK+n+0hu9tCdH9jlHYKMuNKvHRUmCuaeJKfzE6m8pNTQSYX2+H/rZD1xB41KB+u51PD3qj9aixEQpfr/tiuoQ5jy/5MBpXj0aiKSQZsO71/PBRVmtnHdATLwfYMavmf5XRgRPa3BwNz164JBuTI7AxEPxYH+0vDdStPDN6TnoVCjS+8iKj6LO0RJtdZ1kxdcg6Kw5u7iZQ8xYtcKFQY0os5LPpCGb+08Sv//A2En+WSmBRObuY9m2WDB+LbjM8412D1TiWtHtslFTV9DHOAHMtblYNyU/HFDnB2/zVKlbV+4yKEUmRfwfC0YqcFsM9zEYG/bQ/KUdLoIml6QkUSArrDh+NcTSng6pCGZZ618JIDs48L/CSYS1+yZzHH0vwAHPk4qrdW00LVmMr3XV3U3DQq7Ms5u6TDJ1GeEnKzbaP4T3wf+eY/Ch8iIvLNlCHPAjtssqqq6Q7LblxLt4hi7LJn7/OIklChh7sMVIvAz7tBeX6NN4dfZjajZQ//8ma2juUe0HWIQqOQd32dTt90e1ezkSaK1+68mysYtadbaTorBy6Ek5VtSBcNoCgq8bJ2OhTEp9iukT8yZIp6LIqlRmgAaJYpil7t6IchNosA/SgIMBCUopz+xPsaaWNUNSt91McqLSM63JlFwFivsGS2Aq6wzimJ3Q=
+  - secure: rq/dwjvfUzZZtu4kol3lQcEakdhSiuIwZEU9DmgzDVVy4Ysr636Yv5QFnvHyK1e4p4J+KqQDn3rDMAc665M7HgvOZyGvQpWXpsitY8CFzPFBSLD+8GliKSLNwu/R2ziHeSzuI0b8JoIDXJ95QX65E+wRpy1mJlFPUg5XDTD46lUyplnhcR5reTC7iD7VJp5fX1EvlJdBFHhaOMeNIeb2jmuwEXrFJFziMbBDDaohBjHJDT1RcfdVfvjcbSHDXizEx7fkBcW8Al2/FE/70h3h4MOxib32MCMzEEH5TX0rKrkFzkgyuHXJLkKV856+sJstR0Lfy+qotqr7oVjXD+hwZLEroces9OXInXBVuyTGxhnIq/oHhYgVwgECVbtcOvk07h8G/5e5Xvt9n488tzmrOVTSsN5MvUFc5WYiEc77a8Lq13Ea7up+l+nAFdEf3kxNi5Oihtalpr8eG+pYUl8GEx+a0F0WqMNHwuv3dzGU6wJr9fqywyxVAcQYrmi0crD1r+e9l/EQo2WxmjdaVrmVik/dp55HgHJ1yXKrZ7GbcbOOxryGgs7gQMEZCaHoEDzrZdfPiW3UcKgwg4/ZR7qG0Lr9JO7r5WOhh2Oam0l5Q0iAiYapQMrS4y0a839LatEA/3lGFC+NIB0jGCT9xkblMvbajQt7mxCBbeJUdKUN81I=
